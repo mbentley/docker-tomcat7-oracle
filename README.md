@@ -1,10 +1,10 @@
 mbentley/tomcat7-oracle
 ==================
 
-docker image for tomcat7 (with Oracle JRE)
+docker image for tomcat7 (with Oracle JDK)
 based off of stackbrew/debian:jessie
 
-Note:  For Tomcat 7 with OpenJDK JRE, use mbentley/tomcat7
+Note:  For Tomcat 7 with OpenJDK, use mbentley/tomcat7
 
 To pull this image:
 `docker pull mbentley/tomcat7-oracle`
