@@ -1,32 +1,14 @@
-FROM debian:jessie
+FROM mbentley/oracle-jdk7:latest
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
-RUN (echo "deb http://http.debian.net/debian/ jessie main contrib non-free" > /etc/apt/sources.list && echo "deb http://http.debian.net/debian/ jessie-updates main contrib non-free" >> /etc/apt/sources.list && echo "deb http://security.debian.org/ jessie/updates main contrib non-free" >> /etc/apt/sources.list)
-RUN apt-get update
 
-ENV TOMCATVER 7.0.59
+ENV TOMCATVER 7.0.61
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install patch wget
-RUN (wget --progress=dot --no-check-certificate -O /tmp/jdk-7u65-linux-x64.tar.gz --header "Cookie: oraclelicense=a" http://download.oracle.com/otn-pub/java/jdk/7u65-b17/jdk-7u65-linux-x64.tar.gz &&\
-  echo "c223bdbaf706f986f7a5061a204f641f  /tmp/jdk-7u65-linux-x64.tar.gz" | md5sum -c > /dev/null 2>&1 || echo "ERROR: MD5SUM MISMATCH" &&\
-  tar xzf /tmp/jdk-7u65-linux-x64.tar.gz &&\
-  mkdir -p /usr/lib/jvm &&\
-  mv jdk1.7.0_65 /usr/lib/jvm/ &&\
-  mv /usr/lib/jvm/jdk1.7.0_65 /usr/lib/jvm/java-7-oracle &&\
-  rm -rf jdk1.7.0_65 && rm /tmp/jdk-7u65-linux-x64.tar.gz &&\
-  chown root:root -R /usr/lib/jvm/java-7-oracle)
-
-RUN (update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-7-oracle/bin/java 1 &&\
-  update-alternatives --set java /usr/lib/jvm/java-7-oracle/bin/java &&\
-  update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-7-oracle/bin/javac 1 &&\
-  update-alternatives --set javac /usr/lib/jvm/java-7-oracle/bin/javac &&\
-  update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/java-7-oracle/bin/javaws 1 &&\
-  update-alternatives --set javaws /usr/lib/jvm/java-7-oracle/bin/javaws)
-
+RUN (apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install patch wget)
 RUN (wget -O /tmp/tomcat7.tar.gz http://www.us.apache.org/dist/tomcat/tomcat-7/v${TOMCATVER}/bin/apache-tomcat-${TOMCATVER}.tar.gz &&\
-        cd /opt &&\
-        tar zxf /tmp/tomcat7.tar.gz &&\
-        rm /tmp/tomcat7.tar.gz &&\
-        mv /opt/apache-tomcat* /opt/tomcat)
+  cd /opt &&\
+  tar zxf /tmp/tomcat7.tar.gz &&\
+  rm /tmp/tomcat7.tar.gz &&\
+  mv /opt/apache-tomcat* /opt/tomcat)
 
 ADD ./run.sh /usr/local/bin/run
 
