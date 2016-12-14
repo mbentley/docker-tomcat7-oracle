@@ -4,7 +4,7 @@ MAINTAINER Matt Bentley <mbentley@mbentley.net>
 ENV TOMCATVER 7.0.73
 
 RUN (apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install patch wget)
-RUN (wget -O /tmp/tomcat7.tar.gz http://www.apache.org/dist/tomcat/tomcat-7/v${TOMCATVER}/bin/apache-tomcat-${TOMCATVER}.tar.gz &&\
+RUN (wget -O /tmp/tomcat7.tar.gz http://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCATVER}/bin/apache-tomcat-${TOMCATVER}.tar.gz &&\
   cd /opt &&\
   tar zxf /tmp/tomcat7.tar.gz &&\
   rm /tmp/tomcat7.tar.gz &&\
